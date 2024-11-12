@@ -1,8 +1,16 @@
+import 'dart:io' show Platform;
+
 import 'package:flutter/material.dart';
 import 'package:gym_app/pages/start_page.dart';
 import 'package:gym_app/utilities/theme.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 void main() {
+    if ((Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
+    // Usa `sqflite_common_ffi` per piattaforme desktop
+    sqfliteFfiInit();
+    databaseFactory = databaseFactoryFfi;
+  }
   runApp(const MyApp());
 }
 

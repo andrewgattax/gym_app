@@ -3,12 +3,10 @@ import 'package:gym_app/models/Exercise.dart';
 class WorkoutPlan {
   String name;
   List<Exercise> exercises;
-  int duration; // in minutes
 
   WorkoutPlan({
     required this.name,
     required this.exercises,
-    required this.duration,
   });
 
   // Method to add an exercise to the plan
@@ -26,6 +24,12 @@ class WorkoutPlan {
 
   @override
   String toString() {
-    return 'WorkoutPlan(name: $name, exercises: $exercises, duration: $duration)';
+    return 'WorkoutPlan(name: $name, exercises: $exercises)';
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+    };
   }
 }

@@ -1,12 +1,14 @@
 class Exercise {
-  final String name;
-  final int repetitions;
-  final int sets;
+   String name;
+   int repetitions;
+   int sets;
+   int weight;
 
   Exercise({
     required this.name,
     required this.repetitions,
     required this.sets,
+    required this.weight,
   });
 
   @override
