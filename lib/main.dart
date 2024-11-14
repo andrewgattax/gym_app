@@ -1,7 +1,7 @@
 import 'dart:io' show Platform;
 
 import 'package:flutter/material.dart';
-import 'package:gym_app/pages/start_page.dart';
+import 'package:gym_app/pages/home_page.dart';
 import 'package:gym_app/utilities/theme.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'MyWorkout',
       theme: AppTheme.lightTheme,
-      home: const StartPage(),
+      home: const HomePage(),
     );
   }
 }

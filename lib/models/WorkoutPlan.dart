@@ -1,10 +1,12 @@
 import 'package:gym_app/models/Exercise.dart';
 
 class WorkoutPlan {
+  int? id = null;
   String name;
   List<Exercise> exercises;
 
   WorkoutPlan({
+    this.id,
     required this.name,
     required this.exercises,
   });
@@ -29,6 +31,7 @@ class WorkoutPlan {
 
   Map<String, dynamic> toMap() {
     return {
+      'id' : id,
       'name': name,
     };
   }

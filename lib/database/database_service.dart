@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/services.dart';
+import 'package:gym_app/models/Exercise.dart';
 import 'package:gym_app/models/WorkoutPlan.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:sqflite/sqflite.dart';
@@ -22,6 +23,7 @@ class DatabaseService {
     if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
       sqfliteFfiInit();
       databaseFactory = databaseFactoryFfi;
+      print(await getDatabasesPath());
     }
 
     final dbPath = await getDatabasesPath();
@@ -51,6 +53,15 @@ class DatabaseService {
     db!.insert("workout", workoutPlan.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
+  aggiungiEsercizio(Exercise ex, int workoutId) async {
+    final db = await database;
+    await db!.insert(
+      "exercise",
+      ex.toMap()..['workoutId'] = workoutId,
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
   Future<List<WorkoutPlan>> caricaWorkouts() async {
     final db = await database;
     var res = await db!.query("workout");
@@ -60,10 +71,40 @@ class DatabaseService {
       var resultMap = res.toList();
       return [
         for(final {
+          'id' : id as int,
           'name': name as String,
-        } in resultMap) WorkoutPlan(name: name, exercises: [])
+        } in resultMap) WorkoutPlan(id: id, name: name, exercises: await caricaEsercizi(id))
       ];
     }
+  }
+
+  Future<List<Exercise>> caricaEsercizi (int workoutId) async {
+    final db = await database;
+    var res = await db!.query("exercise", where: 'workoutId = ?', whereArgs: [workoutId]);
+    if(res.length == 0) {
+      return [];
+    } else {
+      var resultMap = res.toList();
+      return [
+        for (final {
+          'id' : id as int,
+          'name': name as String,
+          'reps': reps as int,
+          'sets' : sets as int,
+          'weight' : weight as int
+        } in resultMap) Exercise(id: id, name: name, reps: reps, sets: sets, weight: weight)
+      ];
+    }
+  }
+
+  eliminaWorkout(int id) async {
+    final db = await database;
+    db!.delete("workout", where: 'id = ?', whereArgs: [id]);
+  }
+
+  eliminaEsercizio(int id) async {
+    final db = await database;
+    db!.delete("exercise", where: 'id = ?', whereArgs: [id]);
   }
 
   Future<void> loadFromFile(Database db) async {

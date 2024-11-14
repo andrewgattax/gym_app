@@ -1,68 +1,67 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
-import 'package:gym_app/database/database_service.dart';
-import 'package:gym_app/database/workouts_db.dart';
-import 'package:gym_app/models/WorkoutPlan.dart';
+import 'package:gym_app/pages/workouts_page.dart';
+import 'package:gym_app/utilities/theme.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-
-  List<WorkoutPlan>? workouts;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    aggiungiWorkout();
-    caricaWorkouts();
-    print("gay");
-  }
-
-  Future<List<WorkoutPlan>> caricaWorkouts() async{
-    final workouts = DatabaseService.db.caricaWorkouts();
-    return workouts;     
-  }
-
-  void aggiungiWorkout() {
-    final workout = WorkoutPlan(name: 'Workout 1', exercises: []);
-    DatabaseService.db.aggiungiWorkout(workout).then((value) {
-      caricaWorkouts();
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text('MyWorkout'),
-        automaticallyImplyLeading: false,
-      ),
-      body: FutureBuilder(
-        future: caricaWorkouts(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
+      body: Container(decoration: BoxDecoration(
+        gradient: LinearGradient(colors: [Colors.white, Colors.white70],
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter)
+        ),
+        child: Center(
+          child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          'MyWorkout',
+          style: TextStyle(
+            fontSize: 40,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
+        ),
+        SizedBox(height: 10),
+        Text(
+          'Keep track of your workout plans',
+          style: TextStyle(color: Colors.black),
+        ),
+        SizedBox(height: 30),
+        ElevatedButton.icon(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => WorkoutsPage(),)
             );
-          } else {
-            return ListView.builder(
-              itemCount: snapshot.data!.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(snapshot.data![index].name),
-                );
-              },
-            );
-          }
-        },
+          },
+          icon: Icon(Icons.fitness_center_rounded),
+          label: Text('Go Workout'),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Theme.of(context).primaryColor, // Colore del bottone
+            foregroundColor: Colors.white, // Colore del testo e icona
+            padding: EdgeInsets.all(20),
+            textStyle: TextStyle(fontSize: 18),
+          ),
+        ),
+        SizedBox(height: 60),
+        Text(
+          '@andreagattadev_2024',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 12,
+          ),
+        ),
+      ],
+    ),
+        ),
       ),
     );
-      
   }
 }
