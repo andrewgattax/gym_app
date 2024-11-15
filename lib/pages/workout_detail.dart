@@ -1,10 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:gym_app/components/add_exercise_dialog.dart';
 import 'package:gym_app/components/delete_exercise_dialog.dart';
 import 'package:gym_app/components/exercise_tile.dart';
 import 'package:gym_app/database/database_service.dart';
 import 'package:gym_app/models/Exercise.dart';
 import 'package:gym_app/models/WorkoutPlan.dart';
+import 'package:gym_app/providers/workout_provider.dart';
+import 'package:provider/provider.dart';
 
 class WorkoutDetail extends StatefulWidget {
   final WorkoutPlan wp;
@@ -16,12 +19,27 @@ class WorkoutDetail extends StatefulWidget {
 
 class _WorkoutDetailState extends State<WorkoutDetail> {
   late WorkoutPlan wp;
+  int _selectedIndex = 0;
 
-  void rimuoviEsercizio(Exercise ex) {
+  void selectIndex(int index) {
     setState(() {
-          DatabaseService.db.eliminaEsercizio(ex.id!);
-          wp.removeExercise(ex);
+      _selectedIndex = index;
     });
+  }
+
+  void mostraAggiungiDialog() {
+    showDialog(context: context, builder: (BuildContext context) {
+      return AddExerciseDialog(onAdd: aggiungiEsercizio);  
+      });
+  }
+
+  void aggiungiEsercizio(String name, int reps, int sets, int weight) async {
+    final Exercise ex = Exercise(name: name, reps: reps, sets: sets, weight: weight, exType: _selectedIndex + 1);
+    await Provider.of<WorkoutProvider>(context, listen: false).aggiungiEsercizio(ex, wp.id!);
+  }
+
+  void modificaEsercizio(Exercise ex) async {
+    await Provider.of<WorkoutProvider>(context, listen: false).modificaEsercizio(ex);
   }
 
   @override
@@ -32,8 +50,6 @@ class _WorkoutDetailState extends State<WorkoutDetail> {
     /* Exercise ex = Exercise(name: "Leg Ext", reps: 3, sets: 8, weight: 55);
     DatabaseService.db.aggiungiEsercizio(ex, 7); */
   }
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -49,22 +65,76 @@ class _WorkoutDetailState extends State<WorkoutDetail> {
         ),
       ),
         body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 28.0),
-              child: Text("Exercises", style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20
-              ),),
-            ),
             Expanded(
-              child: ListView.builder(shrinkWrap: true, itemCount: wp.exercises.length, itemBuilder: (context, index) {
-                    return ExerciseTile(onDelete: () => {rimuoviEsercizio(wp.exercises[index])}, ex: wp.exercises[index]);
-                },
-              ),
+              child: FutureBuilder(future: Provider.of<WorkoutProvider>(context, listen: false).caricaEsercizi(wp.id!), builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                }
+              
+                return Consumer<WorkoutProvider>(builder: (context, provider, child) {
+                  final workout = provider.workouts.firstWhere((workout) => workout.id == wp.id);
+              
+                  return ListView.builder(
+                    itemCount: workout.exercises.where((exercise) => exercise.exType == _selectedIndex + 1).toList().length,
+                    itemBuilder: (context, index) {
+                      final exercise = workout.exercises.where((exercise) => exercise.exType == _selectedIndex + 1).toList()[index];
+                      return ExerciseTile(onDelete: () async {
+                        await provider.eliminaEsercizio(exercise.id!);
+                      },
+                      onEdit: (ex) {
+                        modificaEsercizio(ex);
+                      },
+                      ex: exercise);
+                    },
+                  );
+                }
+                );
+              }),
             ),
-          ],
+            Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: ElevatedButton.icon(onPressed: () {
+            mostraAggiungiDialog();
+          }, label: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 70, vertical: 10),
+            child: Text("New Exercise", style: TextStyle(
+              fontWeight: FontWeight.bold
+            ),),
+          ),
+          icon: Icon(Icons.add),)
+        )
+          ],        
+        ),
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.only(top: 10),
+          child: BottomNavigationBar(
+            items: const [
+              BottomNavigationBarItem(
+                icon: ImageIcon(
+                  AssetImage("assets/icons/chest.png"),
+                  size: 40,
+                  color: Colors.black,
+                ),
+                label: "Chest"),
+             BottomNavigationBarItem(
+                icon: ImageIcon(
+                  AssetImage("assets/icons/back.png"),
+                  size: 40,
+                  color: Colors.black,
+                ),
+                label: "Back"),
+                BottomNavigationBarItem(
+                icon: ImageIcon(
+                  AssetImage("assets/icons/leg.png"),
+                  size: 40,
+                  color: Colors.black,
+                ),
+                label: "Leg")
+            ],
+            currentIndex: _selectedIndex, 
+            onTap: selectIndex, 
+          ),
         ),
     );
   }

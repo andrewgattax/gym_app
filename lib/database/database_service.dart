@@ -42,6 +42,7 @@ class DatabaseService {
           sets INTEGER,
           reps INTEGER,
           weight INTEGER,
+          exType INTEGER,
           FOREIGN KEY (workoutId) REFERENCES workout(id)
         );
       ''');
@@ -58,6 +59,17 @@ class DatabaseService {
     await db!.insert(
       "exercise",
       ex.toMap()..['workoutId'] = workoutId,
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  modificaEsercizio(Exercise ex) async {
+    final db = await database;
+    await db!.update(
+      "exercise",
+      ex.toMap(),
+      where: 'id = ?',
+      whereArgs: [ex.id],
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
@@ -91,8 +103,9 @@ class DatabaseService {
           'name': name as String,
           'reps': reps as int,
           'sets' : sets as int,
-          'weight' : weight as int
-        } in resultMap) Exercise(id: id, name: name, reps: reps, sets: sets, weight: weight)
+          'weight' : weight as int,
+          'exType' : exType as int,
+        } in resultMap) Exercise(id: id, name: name, reps: reps, sets: sets, weight: weight, exType: exType)
       ];
     }
   }

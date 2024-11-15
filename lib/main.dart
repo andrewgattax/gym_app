@@ -1,8 +1,11 @@
 import 'dart:io' show Platform;
 
 import 'package:flutter/material.dart';
+import 'package:gym_app/database/database_service.dart';
 import 'package:gym_app/pages/home_page.dart';
+import 'package:gym_app/providers/workout_provider.dart';
 import 'package:gym_app/utilities/theme.dart';
+import 'package:provider/provider.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 void main() {
@@ -11,7 +14,10 @@ void main() {
     sqfliteFfiInit();
     databaseFactory = databaseFactoryFfi;
   }
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+    create: (_) => WorkoutProvider(),
+    child: MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {

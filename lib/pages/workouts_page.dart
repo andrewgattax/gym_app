@@ -3,6 +3,8 @@ import 'package:gym_app/components/add_workout_dialog.dart';
 import 'package:gym_app/database/database_service.dart';
 import 'package:gym_app/models/Exercise.dart';
 import 'package:gym_app/models/WorkoutPlan.dart';
+import 'package:gym_app/providers/workout_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../components/workout_tile.dart';
 
@@ -20,40 +22,18 @@ class _WorkoutsPageState extends State<WorkoutsPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Future.delayed(Duration.zero, () {
-      setState(() {
-        caricaWorkouts();
-      });
-    },); 
     /* Exercise newEx = Exercise(name: "Leg Ext", reps: 8, sets: 3, weight: 55); */  
-  }
-
-
-  Future<List<WorkoutPlan>> caricaWorkouts() async{
-    final workouts = DatabaseService.db.caricaWorkouts();
-    return workouts;     
-  }
-
-  void aggiungiWorkout(String workoutName) {
-    setState(() {
-      final workout = WorkoutPlan(name: workoutName, exercises: []);
-      DatabaseService.db.aggiungiWorkout(workout).then((value) {
-      caricaWorkouts();
-    });
-    }); 
-  }
-
-  void eliminaWorkout(int id) {
-    setState(() {
-        DatabaseService.db.eliminaWorkout(id);
-        caricaWorkouts();
-    });
   }
 
   void mostraAggiungiWorkout() {
     showDialog(context: context, builder: (BuildContext context) {
-      return AddWorkoutDialog(onAdd: aggiungiWorkout);
-    });
+      return AddWorkoutDialog(onAdd: aggiungiWorkout);  
+      });
+    }
+
+  void aggiungiWorkout(String workoutName) async {
+      final WorkoutPlan wp = WorkoutPlan(name: workoutName, exercises: []);
+      await Provider.of<WorkoutProvider>(context, listen: false).aggiungiWorkout(wp);
   }
 
   @override
@@ -69,45 +49,40 @@ class _WorkoutsPageState extends State<WorkoutsPage> {
         ),
         ),
       ),
-      body: Column(
+      body: Consumer<WorkoutProvider>(
+        builder: (context, provider, child) {
+          final workouts = provider.workouts;
+
+          return Column(
         children: [Expanded(
-          child: FutureBuilder(
-            future: caricaWorkouts(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              } else {
-                final workouts = snapshot.data;
-                return ListView.builder(itemCount: workouts!.length,
+          child: ListView.builder(itemCount: workouts!.length,
                 itemBuilder: (context, index) {
                   return WorkoutTile(
                     wp: workouts[index],
-                    onDelete: () {
-                      eliminaWorkout(workouts[index].id!);
+                    onDelete: () async {
+                      await Provider.of<WorkoutProvider>(context, listen: false).eliminaWorkout(workouts[index]);
                     },
                   );
-                });
-              }
-            },
-          ),
-        ),
-        Padding(
+                }
+                )
+                ),
+                Padding(
           padding: const EdgeInsets.all(20.0),
           child: ElevatedButton.icon(onPressed: () {
             mostraAggiungiWorkout();
           }, label: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 70, vertical: 10),
-            child: Text("Add new plan", style: TextStyle(
+            child: Text("New Workout", style: TextStyle(
               fontWeight: FontWeight.bold
             ),),
           ),
           icon: Icon(Icons.add),)
         )
-        ]
-      ),
-    );
-      
+                ]
+                );
+              }
+          ),
+        );
   }
 }
+

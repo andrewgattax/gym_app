@@ -31,6 +31,13 @@ class AppTheme {
         buttonColor: Colors.blue,
         textTheme: ButtonTextTheme.primary,
       ),
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        selectedLabelStyle: TextStyle(
+          fontWeight: FontWeight.bold,
+          color: Colors.black
+        ),
+        selectedItemColor: Colors.black,
+      )
     );
   }
 

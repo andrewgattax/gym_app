@@ -4,6 +4,7 @@ class Exercise {
    int reps;
    int sets;
    int weight;
+   int exType;
 
   Exercise({
     this.id,
@@ -11,6 +12,7 @@ class Exercise {
     required this.reps,
     required this.sets,
     required this.weight,
+    required this.exType
   });
 
   @override
@@ -24,7 +26,8 @@ class Exercise {
       'name': name,
       'reps': reps,
       'sets': sets,
-      'weight': weight
+      'weight': weight,
+      'exType' : exType
     };
   }
 }
