@@ -35,7 +35,7 @@ class AddWorkoutDialog extends StatelessWidget {
             onAdd(workoutName);
           }
           Navigator.of(context).pop();
-        }, child: Text("Add Workout"))
+        }, child: Text("Add"))
       ],
     );
   }

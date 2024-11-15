@@ -76,7 +76,7 @@ class AddExerciseDialog extends StatelessWidget {
               onAdd(workoutName, reps, sets, weight);
                         }
                         Navigator.of(context).pop();
-                      }, child: Text("Add Exercise")),
+                      }, child: Text("Add")),
             )
           ],
         ),

@@ -27,14 +27,19 @@ class DatabaseService {
     }
 
     final dbPath = await getDatabasesPath();
+    print(dbPath);
+    databaseFactory.deleteDatabase(dbPath);
     final path = join(dbPath, 'my_workout.db');
 
     return await openDatabase(path, version: 1, onCreate: (db, version) async {
+      print("ora lo creo");
       await db.execute('''
         CREATE TABLE workout(
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           name TEXT
         );
+      ''');
+      await db.execute('''
         CREATE TABLE exercise(
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           workoutId INTEGER,
