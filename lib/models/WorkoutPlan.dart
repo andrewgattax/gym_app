@@ -1,4 +1,4 @@
-import 'package:gym_app/models/Exercise.dart';
+import 'package:my_workout/models/Exercise.dart';
 
 class WorkoutPlan {
   int? id = null;

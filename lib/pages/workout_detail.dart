@@ -1,12 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:gym_app/components/add_exercise_dialog.dart';
-import 'package:gym_app/components/delete_exercise_dialog.dart';
-import 'package:gym_app/components/exercise_tile.dart';
-import 'package:gym_app/database/database_service.dart';
-import 'package:gym_app/models/Exercise.dart';
-import 'package:gym_app/models/WorkoutPlan.dart';
-import 'package:gym_app/providers/workout_provider.dart';
+import 'package:my_workout/components/add_exercise_dialog.dart';
+import 'package:my_workout/components/delete_exercise_dialog.dart';
+import 'package:my_workout/components/exercise_tile.dart';
+import 'package:my_workout/database/database_service.dart';
+import 'package:my_workout/models/Exercise.dart';
+import 'package:my_workout/models/WorkoutPlan.dart';
+import 'package:my_workout/providers/workout_provider.dart';
 import 'package:provider/provider.dart';
 
 class WorkoutDetail extends StatefulWidget {

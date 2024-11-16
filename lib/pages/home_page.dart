@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:gym_app/pages/workouts_page.dart';
-import 'package:gym_app/utilities/theme.dart';
+import 'package:my_workout/pages/workouts_page.dart';
+import 'package:my_workout/utilities/theme.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});

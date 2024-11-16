@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gym_app/models/Exercise.dart';
+import 'package:my_workout/models/Exercise.dart';
 
 class EditExerciseDialog extends StatelessWidget {
   Exercise exercise;

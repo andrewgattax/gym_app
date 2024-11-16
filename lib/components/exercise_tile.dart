@@ -2,12 +2,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:gym_app/components/delete_exercise_dialog.dart';
-import 'package:gym_app/components/edit_exercise_dialog.dart';
-import 'package:gym_app/database/database_service.dart';
-import 'package:gym_app/models/Exercise.dart';
-import 'package:gym_app/providers/workout_provider.dart';
-import 'package:provider/provider.dart';
+import 'package:my_workout/components/delete_exercise_dialog.dart';
+import 'package:my_workout/components/edit_exercise_dialog.dart';
+import 'package:my_workout/models/Exercise.dart';
 import 'package:vibration/vibration.dart';
 
 class ExerciseTile extends StatefulWidget {

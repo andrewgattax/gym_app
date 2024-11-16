@@ -1,10 +1,10 @@
 import 'dart:io' show Platform;
 
 import 'package:flutter/material.dart';
-import 'package:gym_app/database/database_service.dart';
-import 'package:gym_app/pages/home_page.dart';
-import 'package:gym_app/providers/workout_provider.dart';
-import 'package:gym_app/utilities/theme.dart';
+import 'package:my_workout/database/database_service.dart';
+import 'package:my_workout/pages/home_page.dart';
+import 'package:my_workout/providers/workout_provider.dart';
+import 'package:my_workout/utilities/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 

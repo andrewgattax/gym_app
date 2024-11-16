@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/services.dart';
-import 'package:gym_app/models/Exercise.dart';
-import 'package:gym_app/models/WorkoutPlan.dart';
+import 'package:my_workout/models/Exercise.dart';
+import 'package:my_workout/models/WorkoutPlan.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';

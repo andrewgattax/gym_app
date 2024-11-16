@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:gym_app/components/add_workout_dialog.dart';
-import 'package:gym_app/database/database_service.dart';
-import 'package:gym_app/models/Exercise.dart';
-import 'package:gym_app/models/WorkoutPlan.dart';
-import 'package:gym_app/providers/workout_provider.dart';
+import 'package:my_workout/components/add_workout_dialog.dart';
+import 'package:my_workout/database/database_service.dart';
+import 'package:my_workout/models/Exercise.dart';
+import 'package:my_workout/models/WorkoutPlan.dart';
+import 'package:my_workout/providers/workout_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../components/workout_tile.dart';

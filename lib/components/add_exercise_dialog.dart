@@ -37,13 +37,15 @@ class AddExerciseDialog extends StatelessWidget {
                 Expanded(
                   child: TextField(
                   controller: setsController,
-                  decoration: InputDecoration(hintText: "Sets")),
+                  decoration: InputDecoration(hintText: "Sets"),
+                  keyboardType: TextInputType.number,),
                 ),
                 SizedBox(width: 10,),
                 Expanded(
                   child: TextField(
                   controller: weightController,
-                  decoration: InputDecoration(hintText: "Weight")),
+                  decoration: InputDecoration(hintText: "Weight"),
+                  keyboardType: TextInputType.number,),
                 ),
                 ],
             ),

@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
-import "package:gym_app/database/database_service.dart";
-import "package:gym_app/models/Exercise.dart";
-import "package:gym_app/models/WorkoutPlan.dart";
+import "package:my_workout/database/database_service.dart";
+import "package:my_workout/models/Exercise.dart";
+import "package:my_workout/models/WorkoutPlan.dart";
 
 class WorkoutProvider extends ChangeNotifier{
   List<WorkoutPlan> _workouts = [];
