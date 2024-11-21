@@ -31,7 +31,7 @@ class DatabaseService {
     databaseFactory.deleteDatabase(dbPath);
     final path = join(dbPath, 'my_workout.db');
 
-    return await openDatabase(path, version: 1, onCreate: (db, version) async {
+    return await openDatabase(path, version: 2, onCreate: (db, version) async {
       print("ora lo creo");
       await db.execute('''
         CREATE TABLE workout(
@@ -46,12 +46,26 @@ class DatabaseService {
           name TEXT,
           sets INTEGER,
           reps INTEGER,
-          weight INTEGER,
+          weight DOUBLE,
           exType INTEGER,
           FOREIGN KEY (workoutId) REFERENCES workout(id)
         );
       ''');
-    });
+    }, onUpgrade: (db, oldVersion, newVersion) async {
+      await db.execute('''DROP TABLE exercise''');
+      await db.execute('''
+        CREATE TABLE exercise(
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          workoutId INTEGER,
+          name TEXT,
+          sets INTEGER,
+          reps INTEGER,
+          weight DOUBLE,
+          exType INTEGER,
+          FOREIGN KEY (workoutId) REFERENCES workout(id)
+        );
+      ''');
+    },);
   }
 
   aggiungiWorkout(WorkoutPlan workoutPlan) async {
@@ -108,7 +122,7 @@ class DatabaseService {
           'name': name as String,
           'reps': reps as int,
           'sets' : sets as int,
-          'weight' : weight as int,
+          'weight' : weight as double,
           'exType' : exType as int,
         } in resultMap) Exercise(id: id, name: name, reps: reps, sets: sets, weight: weight, exType: exType)
       ];

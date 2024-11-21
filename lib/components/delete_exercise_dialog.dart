@@ -11,8 +11,10 @@ class DeleteExDialog extends StatelessWidget {
       title: Text("Delete exercise", style: TextStyle(
         color: Colors.grey.shade600
       ),),
-      actions: [
-        ElevatedButton.icon(onPressed: () {
+      actions: 
+      [
+        Row(
+        children: [ElevatedButton.icon(onPressed: () {
         Navigator.of(context).pop(false);
       },
       label: Text("Cancel"),
@@ -21,6 +23,7 @@ class DeleteExDialog extends StatelessWidget {
         backgroundColor: Colors.grey,
         iconColor: Colors.white
       )),
+      SizedBox(width: 10,),
         ElevatedButton.icon(onPressed: () {
         Navigator.of(context).pop(true);
       }, label: Text("Confirm"),
@@ -28,7 +31,8 @@ class DeleteExDialog extends StatelessWidget {
        style: ElevatedButton.styleFrom(
         backgroundColor: Colors.red,
         iconColor: Colors.white
-      ),), 
+      ),), ],
+      )
       ],
     );
   }

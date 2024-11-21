@@ -9,7 +9,7 @@ class EditExerciseDialog extends StatelessWidget {
   TextEditingController repsController = TextEditingController();
   TextEditingController weightController = TextEditingController();
   
-  final Function(String, int, int, int) onEdit;
+  final Function(String, int, int, double) onEdit;
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +81,7 @@ class EditExerciseDialog extends StatelessWidget {
                         String workoutName = nameController.text;
                         int? reps = int.tryParse(repsController.text);
                         int? sets = int.tryParse(setsController.text);
-                        int? weight = int.tryParse(weightController.text);
+                        double? weight = double.tryParse(weightController.text);
                         if(workoutName.isNotEmpty && reps != null && sets != null && weight != null) {
               onEdit(workoutName, reps, sets, weight);
                         }

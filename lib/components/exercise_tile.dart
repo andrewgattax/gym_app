@@ -33,7 +33,7 @@ class _ExerciseTileState extends State<ExerciseTile> {
       });
   }
 
-  modificaEsercizio(String name, int reps, int sets, int weight) {
+  modificaEsercizio(String name, int reps, int sets, double weight) {
     widget.ex.name = name;
     widget.ex.reps = reps;
     widget.ex.sets = sets;
@@ -120,17 +120,25 @@ class _ExerciseTileState extends State<ExerciseTile> {
                       colorFilter: ColorFilter.mode(Colors.black, BlendMode.srcIn),))
                     ),
                   SizedBox(width: 15),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [Text(widget.ex.name, style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold
-                      ),),
-                      Text(widget.ex.sets.toString() + " sets, " + widget.ex.reps.toString() + " reps", style: TextStyle(
-                        color: Colors.grey.shade600
-                      ),)],
+                  IntrinsicWidth(
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(maxWidth: 120),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [Text(widget.ex.name, style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold
+                            ),),
+                            Text(widget.ex.sets.toString() + " sets, " + widget.ex.reps.toString() + " reps", style: TextStyle(
+                              color: Colors.grey.shade600
+                            ),)],
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -144,18 +152,24 @@ class _ExerciseTileState extends State<ExerciseTile> {
                   Expanded(
                     child: Align(
                     alignment: Alignment.centerLeft,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [Text("Weight", style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold
-                      ),),
-                      Text(widget.ex.weight.toString() + "Kg", style: TextStyle(
-                        color: Colors.grey.shade600
-                      ),)],
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(3,0,20,0),
+                      child: SizedBox(
+                        width: 50,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [Text("Weight", style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold
+                          ),),
+                          Text(widget.ex.weight.toString() + "Kg", style: TextStyle(
+                            color: Colors.grey.shade600
+                          ),)],
+                        ),
+                      ),
                     ),
-                  ),
-                    ), 
+                                      ),
+                  ), 
                   Padding(
                     padding: const EdgeInsets.all(4.0),
                     child: IconButton(onPressed: () async {

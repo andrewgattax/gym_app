@@ -1,9 +1,11 @@
+import 'dart:ffi';
+
 class Exercise {
   int? id;
    String name;
    int reps;
    int sets;
-   int weight;
+   double weight;
    int exType;
 
   Exercise({

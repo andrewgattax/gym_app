@@ -33,7 +33,7 @@ class _WorkoutDetailState extends State<WorkoutDetail> {
       });
   }
 
-  void aggiungiEsercizio(String name, int reps, int sets, int weight) async {
+  void aggiungiEsercizio(String name, int reps, int sets, double weight) async {
     final Exercise ex = Exercise(name: name, reps: reps, sets: sets, weight: weight, exType: _selectedIndex + 1);
     await Provider.of<WorkoutProvider>(context, listen: false).aggiungiEsercizio(ex, wp.id!);
   }
