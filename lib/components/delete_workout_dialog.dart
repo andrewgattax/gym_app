@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:my_workout/models/Exercise.dart';
 import 'package:my_workout/models/WorkoutPlan.dart';
 
-class DeleteExDialog extends StatelessWidget {
+class DeleteWpDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text("Delete exercise?", style: TextStyle(
+      title: Text("Delete workout?", style: TextStyle(
         color: Colors.grey.shade600
       ),),
       actions: 

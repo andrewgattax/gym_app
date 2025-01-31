@@ -2,6 +2,7 @@
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:my_workout/components/delete_workout_dialog.dart';
 import 'package:my_workout/models/WorkoutPlan.dart';
 import 'package:my_workout/pages/workout_detail.dart';
 
@@ -16,6 +17,13 @@ class WorkoutTile extends StatefulWidget {
 }
 
 class _WorkoutTileState extends State<WorkoutTile> {
+
+  Future<bool> mostraDeleteDialog(BuildContext context) async{
+    return await showDialog(context: context, builder: (BuildContext context) {
+      return DeleteWpDialog();
+    }) ?? false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
@@ -61,7 +69,12 @@ class _WorkoutTileState extends State<WorkoutTile> {
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: IconButton(onPressed: widget.onDelete, icon: Icon(Icons.delete_outline)),
+                child: IconButton(onPressed: () async {
+                          bool confirm = await mostraDeleteDialog(context);
+                          if(confirm) {
+                            print("sesso");
+                            widget.onDelete();
+                          }}, icon: Icon(Icons.delete_outline)),
               )
             ],
           ),

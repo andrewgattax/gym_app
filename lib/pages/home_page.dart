@@ -51,7 +51,7 @@ class HomePage extends StatelessWidget {
         ),
         SizedBox(height: 60),
         Text(
-          '@andreagattadev_2024',
+          '@andrewgat.tax_2024',
           textAlign: TextAlign.center,
           style: TextStyle(
             color: Colors.black,
