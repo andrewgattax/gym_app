@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:my_workout/components/add_exercise_dialog.dart';
 import 'package:my_workout/components/delete_exercise_dialog.dart';
@@ -28,18 +29,23 @@ class _WorkoutDetailState extends State<WorkoutDetail> {
   }
 
   void mostraAggiungiDialog() {
-    showDialog(context: context, builder: (BuildContext context) {
-      return AddExerciseDialog(onAdd: aggiungiEsercizio);  
-      });
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AddExerciseDialog(onAdd: aggiungiEsercizio);
+        });
   }
 
   void aggiungiEsercizio(String name, int reps, int sets, double weight) async {
-    final Exercise ex = Exercise(name: name, reps: reps, sets: sets, weight: weight, exType: _selectedIndex + 1);
-    await Provider.of<WorkoutProvider>(context, listen: false).aggiungiEsercizio(ex, wp.id!);
+    final Exercise ex =
+        Exercise(name: name, reps: reps, sets: sets, weight: weight);
+    await Provider.of<WorkoutProvider>(context, listen: false)
+        .aggiungiEsercizio(ex, wp.id!);
   }
 
   void modificaEsercizio(Exercise ex) async {
-    await Provider.of<WorkoutProvider>(context, listen: false).modificaEsercizio(ex);
+    await Provider.of<WorkoutProvider>(context, listen: false)
+        .modificaEsercizio(ex);
   }
 
   @override
@@ -54,88 +60,103 @@ class _WorkoutDetailState extends State<WorkoutDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 60,
-        iconTheme: Theme.of(context).iconTheme,
-        centerTitle: true,
-        title: Text(wp.name, style: TextStyle(
-          fontWeight: FontWeight.bold,
-          color: Colors.black
+        appBar: AppBar(
+          toolbarHeight: 60,
+          iconTheme: Theme.of(context).iconTheme,
+          centerTitle: true,
+          title: Text(
+            wp.name,
+            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+          ),
         ),
-        ),
-      ),
         body: Column(
           children: [
+            /* 
             Expanded(
-              child: FutureBuilder(future: Provider.of<WorkoutProvider>(context, listen: false).caricaEsercizi(wp.id!), builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
-                }
-              
-                return Consumer<WorkoutProvider>(builder: (context, provider, child) {
-                  final workout = provider.workouts.firstWhere((workout) => workout.id == wp.id);
-              
-                  return ListView.builder(
-                    itemCount: workout.exercises.where((exercise) => exercise.exType == _selectedIndex + 1).toList().length,
-                    itemBuilder: (context, index) {
-                      final exercise = workout.exercises.where((exercise) => exercise.exType == _selectedIndex + 1).toList()[index];
-                      return ExerciseTile(onDelete: () async {
-                        await provider.eliminaEsercizio(exercise.id!);
-                      },
-                      onEdit: (ex) {
-                        modificaEsercizio(ex);
-                      },
-                      ex: exercise);
-                    },
-                  );
-                }
-                );
-              }),
+              child: FutureBuilder(
+                  future: Provider.of<WorkoutProvider>(context, listen: false)
+                      .caricaEsercizi(wp.id!),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(child: CircularProgressIndicator());
+                    }
+
+                    return Consumer<WorkoutProvider>(
+                        builder: (context, provider, child) {
+                      final workout = provider.workouts
+                          .firstWhere((workout) => workout.id == wp.id);
+
+                      return ListView.builder(
+                        itemCount: workout.exercises
+                            .where((exercise) =>
+                                exercise.exType == _selectedIndex + 1)
+                            .toList()
+                            .length,
+                        itemBuilder: (context, index) {
+                          final exercise = workout.exercises
+                              .where((exercise) =>
+                                  exercise.exType == _selectedIndex + 1)
+                              .toList()[index];
+                          return ExerciseTile(
+                              onDelete: () async {
+                                await provider.eliminaEsercizio(exercise.id!);
+                              },
+                              onEdit: (ex) {
+                                modificaEsercizio(ex);
+                              },
+                              ex: exercise);
+                        },
+                      );
+                    });
+                  }),
             ),
             Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: ElevatedButton.icon(onPressed: () {
-            mostraAggiungiDialog();
-          }, label: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 70, vertical: 10),
-            child: Text("New Exercise", style: TextStyle(
-              fontWeight: FontWeight.bold
-            ),),
-          ),
-          icon: Icon(Icons.add),)
-        )
-          ],        
+                padding: const EdgeInsets.all(20.0),
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    mostraAggiungiDialog();
+                  },
+                  label: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 70, vertical: 10),
+                    child: Text(
+                      "New Exercise",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  icon: Icon(Icons.add),
+                )) */
+          ],
         ),
-        bottomNavigationBar: Padding(
-          padding: const EdgeInsets.only(top: 10),
-          child: BottomNavigationBar(
-            items: const [
-              BottomNavigationBarItem(
-                icon: ImageIcon(
-                  AssetImage("assets/icons/chest.png"),
-                  size: 40,
-                  color: Colors.black,
-                ),
-                label: "Chest"),
-             BottomNavigationBarItem(
-                icon: ImageIcon(
-                  AssetImage("assets/icons/back.png"),
-                  size: 40,
-                  color: Colors.black,
-                ),
-                label: "Back"),
-                BottomNavigationBarItem(
-                icon: ImageIcon(
-                  AssetImage("assets/icons/leg.png"),
-                  size: 40,
-                  color: Colors.black,
-                ),
-                label: "Leg")
-            ],
-            currentIndex: _selectedIndex, 
-            onTap: selectIndex, 
+        bottomNavigationBar: BottomAppBar(
+          child: SizedBox(
+            height: 60,
+            child: Row(
+              children: [
+                Expanded(
+                    child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: wp.exTypes.length,
+                        itemBuilder: (context, index) {
+                          if (index >= wp.exTypes.length)
+                            return SizedBox.shrink();
+                          return Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: ElevatedButton(
+                                  onPressed: () {
+                                    print("sei gay");
+                                  },
+                                  child: Text(wp.exTypes[index].name)));
+                        })),
+                IconButton(
+                    onPressed: () {
+                      print("aggiungi un gay");
+                    },
+                    icon: Icon(Icons.add))
+              ],
+            ),
           ),
-        ),
-    );
+        ));
   }
 }

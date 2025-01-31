@@ -1,21 +1,16 @@
-import 'dart:ffi';
-
 class Exercise {
   int? id;
-   String name;
-   int reps;
-   int sets;
-   double weight;
-   int exType;
+  String name;
+  int reps;
+  int sets;
+  double weight;
 
-  Exercise({
-    this.id,
-    required this.name,
-    required this.reps,
-    required this.sets,
-    required this.weight,
-    required this.exType
-  });
+  Exercise(
+      {this.id,
+      required this.name,
+      required this.reps,
+      required this.sets,
+      required this.weight});
 
   @override
   String toString() {
@@ -24,12 +19,11 @@ class Exercise {
 
   Map<String, dynamic> toMap() {
     return {
-      'id' : id,
+      'id': id,
       'name': name,
       'reps': reps,
       'sets': sets,
       'weight': weight,
-      'exType' : exType
     };
   }
 }
